@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <!-- TOOLBAR -->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+    <!-- ROOT LINEAR LAYOUT -->
+    <LinearLayout
+        android:id="@+id/root_linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/sketch_type_textview"
+            android:text="Sketch type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+        </TextView>
+
+        <RadioGroup
+            android:id="@+id/radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp">
+
+            <RadioButton
+                android:id="@+id/dotted_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dotted">
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/crosshatch_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Crosshatch">
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/line_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Line">
+            </RadioButton>
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/button_linear_layout"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="32dp"
+            android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/select_button"
+            android:text="Select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"/>
+
+        <Button
+            android:id="@+id/start_button"
+            android:text="Start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"/>
+
+        <Button
+            android:id="@+id/stop_button"
+            android:text="Stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/selectedimage_textview"
+            android:text="Selected image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="262dp"
+            android:src="@drawable/baby_anteater_upclose"/>
+
+    </LinearLayout>
+</RelativeLayout>
