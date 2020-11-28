@@ -102,9 +102,10 @@
             android:layout_marginBottom="16dp"/>
 
         <ImageView
+            android:id="@+id/image_preview"
             android:layout_width="wrap_content"
             android:layout_height="262dp"
-            android:src="@drawable/baby_anteater_upclose"/>
+            />
 
     </LinearLayout>
 </RelativeLayout>

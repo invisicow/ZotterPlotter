@@ -1,31 +1,43 @@
 package com.example.zotterplotter;
 
+import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import java.net.URI;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Selected image as drawable and bitmap
+    Drawable imageDrawable;
+    Bitmap imageBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // !!! MIGHT HAVE TO BE content_main.xml
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         // Set button click listeners
-
         Button selectBtn = findViewById(R.id.select_button);
         selectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Select image to print
     private void selectImage(View view){
-        // TODO: Create method
+        selectImage();
     }
 
     // Start printing
@@ -66,7 +78,39 @@ public class MainActivity extends AppCompatActivity {
         // TODO: Create method
     }
 
+    int CHOSEN_IMAGE_CODE = 0;
 
+    // Creates intent for gallery
+    private void selectImage() {
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, CHOSEN_IMAGE_CODE);
+    }
+
+    // Handle chosen image
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode == RESULT_OK && requestCode == CHOSEN_IMAGE_CODE){
+
+            // Get ImageView of selected image
+            ImageView selectedImageView = new ImageView(this);
+            selectedImageView.setImageURI(data.getData());
+
+            // Get Drawable from ImageView
+            imageDrawable = selectedImageView.getDrawable();
+
+            // Get Bitmap from Drawable
+            imageBitmap = ((BitmapDrawable) selectedImageView.getDrawable()).getBitmap();
+
+            // Set ImageView source as image bitmap
+            ImageView imagePreview = findViewById(R.id.image_preview);
+            imagePreview.setImageBitmap(imageBitmap);
+        }
+    }
+
+    // Toolbar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -74,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // Toolbar menu options
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
