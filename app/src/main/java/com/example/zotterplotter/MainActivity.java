@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 FileInputStream inputStream = new FileInputStream(new File("/storage/emulated/0/Download/billclinton.png"));
 
                 // Define remote directory to store file
-                boolean returnCode = ftp.storeFile("PATH/billclinton.png", inputStream);
+                boolean returnCode = ftp.storeFile("/home/pi/Downloads/billclinton.png", inputStream);
 
                 inputStream.close();
 
