@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/ZotterPlotter.iml" filepath="$PROJECT_DIR$/.idea/ZotterPlotter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ZotterPlotter.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ZotterPlotter.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/commons-net-3.7.2/ZotterPlotter.commons-net-3.7.2.iml" filepath="$PROJECT_DIR$/.idea/modules/commons-net-3.7.2/ZotterPlotter.commons-net-3.7.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/commons-net-3.7.2-sources/ZotterPlotter.commons-net-3.7.2-sources.iml" filepath="$PROJECT_DIR$/.idea/modules/commons-net-3.7.2-sources/ZotterPlotter.commons-net-3.7.2-sources.iml" />
+    </modules>
+  </component>
+</project>

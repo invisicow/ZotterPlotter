@@ -14,12 +14,18 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.URI;
 
 public class MainActivity extends AppCompatActivity {
@@ -70,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
 
     // Start printing
     private void startPrint(View view){
-        // TODO: Create method
+
+        // Upload instructions via FTP
+        sendFileToRaspi();
     }
 
     // Stop printing
@@ -107,6 +115,43 @@ public class MainActivity extends AppCompatActivity {
             // Set ImageView source as image bitmap
             ImageView imagePreview = findViewById(R.id.image_preview);
             imagePreview.setImageBitmap(imageBitmap);
+        }
+    }
+
+    // Upload file to Raspberry Pi via FTP
+    private void sendFileToRaspi(){
+
+        try{
+
+            FTPClient ftp = new FTPClient();
+
+            ftp.connect("192.168.###:port");
+
+            if (ftp.login("pi", "151200")){
+
+                // Change file type from ASCII to Binary
+                ftp.setFileType(FTP.BINARY_FILE_TYPE);
+
+                // Open data transfers
+                ftp.enterLocalPassiveMode();
+
+                // Define directory of local file
+                FileInputStream inputStream = new FileInputStream(new File("/storage/emulated/0/Download/billclinton.png"));
+
+                // Define remote directory to store file
+                boolean returnCode = ftp.storeFile("PATH/billclinton.png", inputStream);
+
+                inputStream.close();
+
+                if(ftp.isConnected()){
+                    ftp.logout();
+                    ftp.disconnect();
+                }
+
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
     }
 
