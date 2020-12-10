@@ -1,3 +1,4 @@
+include ':jsch-0.1.55'
 include ':commons-net-3.7.2-sources'
 include ':commons-net-3.7.2'
 include ':app'

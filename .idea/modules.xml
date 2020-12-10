@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ZotterPlotter.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ZotterPlotter.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/commons-net-3.7.2/ZotterPlotter.commons-net-3.7.2.iml" filepath="$PROJECT_DIR$/.idea/modules/commons-net-3.7.2/ZotterPlotter.commons-net-3.7.2.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/commons-net-3.7.2-sources/ZotterPlotter.commons-net-3.7.2-sources.iml" filepath="$PROJECT_DIR$/.idea/modules/commons-net-3.7.2-sources/ZotterPlotter.commons-net-3.7.2-sources.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jsch-0.1.55/ZotterPlotter.jsch-0.1.55.iml" filepath="$PROJECT_DIR$/.idea/modules/jsch-0.1.55/ZotterPlotter.jsch-0.1.55.iml" />
     </modules>
   </component>
 </project>

@@ -1,12 +1,15 @@
 package com.example.zotterplotter;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -21,11 +25,20 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
+
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPSClient;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.net.InetAddress;
 import java.net.URI;
 
 public class MainActivity extends AppCompatActivity {
@@ -58,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 startPrint(view);
             }
+
         });
 
         Button stopBtn = findViewById(R.id.stop_button);
@@ -77,8 +91,21 @@ public class MainActivity extends AppCompatActivity {
     // Start printing
     private void startPrint(View view){
 
-        // Upload instructions via FTP
-        sendFileToRaspi();
+        // Start a new thread for the SFTP
+        Thread thread = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+
+                    // Upload instructions via FTP
+                    sendFileToRaspi();
+
+                } catch (Exception e) {
+                    Log.e("NewThread", e.getMessage());
+                }
+            }
+        });
+        thread.start();
     }
 
     // Stop printing
@@ -121,37 +148,49 @@ public class MainActivity extends AppCompatActivity {
     // Upload file to Raspberry Pi via FTP
     private void sendFileToRaspi(){
 
-        try{
+        Channel channel = null;
+        Session session = null;
 
-            FTPClient ftp = new FTPClient();
+        try {
 
-            ftp.connect("192.168.###:port");
+            // Connect to local host
+            /* HOST IP MAY CHANGE ABRUPTLY. FOR ERRORS, USE IFCONFIG TO CHECK */
+            JSch ssh = new JSch();
+            session = ssh.getSession("pi", "192.168.50.175", 22);
+            session.setPassword("151200");
 
-            if (ftp.login("pi", "151200")){
+            // Disable known hosts list before connecting to session
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            session.setConfig(config);
 
-                // Change file type from ASCII to Binary
-                ftp.setFileType(FTP.BINARY_FILE_TYPE);
+            // Establish SFTP session
+            session.connect();
+            channel = session.openChannel("sftp");
+            channel.connect();
+            ChannelSftp sftp = (ChannelSftp) channel;
 
-                // Open data transfers
-                ftp.enterLocalPassiveMode();
+            // Set local Android directory
+            File dir = Environment.getExternalStorageDirectory();
+            String path2 = dir.getAbsolutePath();
+            path2 = path2 + "/Download/Peter.jpg";
 
-                // Define directory of local file
-                FileInputStream inputStream = new FileInputStream(new File("/storage/emulated/0/Download/billclinton.png"));
+            // Set remote Raspberry Pi directory
+            sftp.put(path2, "/home/pi/Downloads/");
 
-                // Define remote directory to store file
-                boolean returnCode = ftp.storeFile("/home/pi/Downloads/billclinton.png", inputStream);
-
-                inputStream.close();
-
-                if(ftp.isConnected()){
-                    ftp.logout();
-                    ftp.disconnect();
-                }
-
-            }
-        }
-        catch (Exception e){
+        } catch (JSchException e) {
             e.printStackTrace();
+        } catch (SftpException e) {
+            e.printStackTrace();
+        } finally {
+
+            // Terminate SFTP session
+            if (channel != null) {
+                channel.disconnect();
+            }
+            if (session != null) {
+                session.disconnect();
+            }
         }
     }
 
