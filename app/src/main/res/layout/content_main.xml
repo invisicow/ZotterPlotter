@@ -33,7 +33,7 @@
         </TextView>
 
         <RadioGroup
-            android:id="@+id/radiogroup"
+            android:id="@+id/sketch_type_radiogroup"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="16dp">
@@ -57,6 +57,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Line">
+            </RadioButton>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/detail_textview"
+            android:text="Detail level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+        </TextView>
+
+        <RadioGroup
+            android:id="@+id/detail_level_radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="16dp">
+
+            <RadioButton
+                android:id="@+id/minimum_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minimum">
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/moderate_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Moderate">
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/maximum_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Maximum">
             </RadioButton>
 
         </RadioGroup>
